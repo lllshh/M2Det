@@ -12,7 +12,7 @@ model = dict(
         num_scales = 6,
         sfam = False,
         smooth = True,
-        num_classes = 81,
+        num_classes = 2,
         ),
     rgb_means = (104, 117, 123),
     p = 0.6,
@@ -45,7 +45,7 @@ test_cfg = dict(
     topk = 0,
     iou = 0.45,
     soft_nms = True,
-    score_threshold = 0.1,
+    score_threshold = 0.5,
     keep_per_class = 50,
     save_folder = 'eval'
     )
