@@ -45,7 +45,7 @@ test_cfg = dict(
     topk = 0,
     iou = 0.45,
     soft_nms = True,
-    score_threshold = 0.5,
+    score_threshold = 0.1,
     keep_per_class = 50,
     save_folder = 'eval'
     )
@@ -63,7 +63,8 @@ optimizer = dict(type='SGD', momentum=0.9, weight_decay=0.0005)
 dataset = dict(
         VOC = dict(
         train_sets = [('2007', 'trainval')],
-        eval_sets = [('2007', 'test')],
+        test_sets = [('2007', 'test')],
+        eval_sets = [('2007', 'val')],
         ),
     #VOC = dict(
     #    train_sets = [('2007', 'trainval'), ('2012', 'trainval')],

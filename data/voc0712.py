@@ -63,9 +63,9 @@ class VOCSegmentation(data.Dataset):
         self.target_transform = target_transform
 
         self._annopath = os.path.join(
-            self.root, dataset_name, 'SegmentationClass', '%s.png')
+            self.root, dataset_name, 'OriginalImages', '%s.png')
         self._imgpath = os.path.join(
-            self.root, dataset_name, 'JPEGImages', '%s.jpg')
+            self.root, dataset_name, 'JPEGImages', '%s.png')
         self._imgsetpath = os.path.join(
             self.root, dataset_name, 'ImageSets', 'Segmentation', '%s.txt')
 
@@ -120,9 +120,9 @@ class AnnotationTransform(object):
         """
         res = np.empty((0,5)) 
         for obj in target.iter('object'):
-            difficult = int(obj.find('difficult').text) == 1
-            if not self.keep_difficult and difficult:
-                continue
+            #difficult = int(obj.find('difficult').text) == 1
+            #if not self.keep_difficult and difficult:
+            #    continue
             name = obj.find('name').text.lower().strip()
             bbox = obj.find('bndbox')
 
@@ -160,18 +160,18 @@ class VOCDetection(data.Dataset):
     """
 
     def __init__(self, root, image_sets, preproc=None, target_transform=AnnotationTransform(),
-                 dataset_name='VOC0712'):
+                 dataset_name='VOC'):
         self.root = root
         self.image_set = image_sets
         self.preproc = preproc
         self.target_transform = target_transform
         self.name = dataset_name
         self._annopath = os.path.join('%s', 'Annotations', '%s.xml')
-        self._imgpath = os.path.join('%s', 'JPEGImages', '%s.jpg')
+        self._imgpath = os.path.join('%s', 'JPEGImages', '%s.png')
         self.ids = list()
         for (year, name) in image_sets:
             self._year = year
-            rootpath = os.path.join(self.root, 'VOC' + year)
+            rootpath = os.path.join(self.root, 'VOC')
             for line in open(os.path.join(rootpath, 'ImageSets', 'Main', name + '.txt')):
                 self.ids.append((rootpath, line.strip()))
 
@@ -257,7 +257,7 @@ class VOCDetection(data.Dataset):
     def _get_voc_results_file_template(self):
         filename = 'comp4_det_test' + '_{:s}.txt'
         filedir = os.path.join(
-            self.root, 'results', 'VOC' + self._year, 'Main')
+            self.root, 'results', 'VOC', 'Main')
         if not os.path.exists(filedir):
             os.makedirs(filedir)
         path = os.path.join(filedir, filename)

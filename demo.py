@@ -57,7 +57,7 @@ def _to_color(indx, base):
     return b * 127, r * 127, g * 127
 base = int(np.ceil(pow(cfg.model.m2det_config.num_classes, 1. / 3)))
 colors = [_to_color(x, base) for x in range(cfg.model.m2det_config.num_classes)]
-cats = [_.strip().split(',')[-1] for _ in open('data/coco_labels.txt','r').readlines()]
+cats = [_.strip().split(',')[-1] for _ in open('data/labels.txt','r').readlines()]
 labels = tuple(['__background__'] + cats)
 
 def draw_detection(im, bboxes, scores, cls_inds, fps, thr=0.2):
@@ -98,7 +98,7 @@ if cam >= 0 or video:
     video_name = os.path.splitext(video_path)
     fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
     out_video = cv2.VideoWriter(video_name[0] + '_m2det.mp4', fourcc, capture.get(cv2.CAP_PROP_FPS), (int(capture.get(cv2.CAP_PROP_FRAME_WIDTH)), int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))))
-im_fnames = sorted((fname for fname in os.listdir(im_path) if os.path.splitext(fname)[-1] == '.jpg'))
+im_fnames = sorted((fname for fname in os.listdir(im_path) if os.path.splitext(fname)[-1] == '.png'))
 im_fnames = (os.path.join(im_path, fname) for fname in im_fnames)
 im_iter = iter(im_fnames)
 while True:
@@ -164,6 +164,6 @@ while True:
                 capture.release()
                 break
     if cam < 0 and not video:
-        cv2.imwrite('{}_m2det.jpg'.format(fname.split('.')[0]), im2show)
+        cv2.imwrite('{}_m2det.png'.format(fname.split('.')[0]), im2show)
     else:
         out_video.write(im2show)
