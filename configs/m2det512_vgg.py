@@ -1,6 +1,6 @@
 model = dict(
     type = 'm2det',
-    input_size = 512,
+    input_size = 330,
     init_net = True,
     pretrained = 'weights/vgg16_reducedfc.pth',
     m2det_config = dict(
